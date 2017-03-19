@@ -28,6 +28,14 @@ def get_location1 ():
 
 
             r=client.distance_matrix(a.strip(), str(results2['If you know the neighbourhood you want to live in please enter it below (Note we will only search apartments in this neighbourhood)'].iloc[number])+', Ontario',mode= 'transit')
+            if 'NOT_FOUND' in r['rows'][0]['elements'][0]['status']:
+                if website=='craigslist':
+                    r=client.distance_matrix(result2[0]['address_components'][-1]['long_name'].replace(' ',''), str(results2['If you know the neighbourhood you want to live in please enter it below (Note we will only search apartments in this neighbourhood)'].iloc[number])+', Ontario',mode= 'transit')
+                elif website=='kijiji':
+                    r=client.distance_matrix(a.strip()[-6:], str(results2['If you know the neighbourhood you want to live in please enter it below (Note we will only search apartments in this neighbourhood)'].iloc[number])+', Ontario',mode= 'transit')
+                    
+                    
+                    
             df.loc[b]['Distance To Chosen By TTC']=r['rows'][0]['elements'][0]['duration']['value']/60*1.1
             print r['rows'][0]['elements'][0]['duration']['value']/60*1.1
 
@@ -104,6 +112,12 @@ def get_location1 ():
 
 
             r=client.distance_matrix(a.strip(), str(results2['What is the closest intersection to work?'].iloc[number])+', Ontario',mode= 'transit')
+            if 'NOT_FOUND' in r['rows'][0]['elements'][0]['status']:
+                if website=='craigslist':
+                    r=client.distance_matrix(result2[0]['address_components'][-1]['long_name'].replace(' ',''), str(results2['If you know the neighbourhood you want to live in please enter it below (Note we will only search apartments in this neighbourhood)'].iloc[number])+', Ontario',mode= 'transit')
+                elif website=='kijiji':
+                    r=client.distance_matrix(a.strip()[-6:], str(results2['If you know the neighbourhood you want to live in please enter it below (Note we will only search apartments in this neighbourhood)'].iloc[number])+', Ontario',mode= 'transit')
+                    
             df.loc[b]['Distance To Work By TTC']=r['rows'][0]['elements'][0]['duration']['value']/60*1.1
             print r['rows'][0]['elements'][0]['duration']['value']/60*1.1
 
@@ -182,6 +196,13 @@ def get_location1 ():
 
 
             r=client.distance_matrix(a.strip(), str(results2['Outside of work, what part of the city are you usually in? '].iloc[number])+', Ontario',mode= 'transit')
+            if 'NOT_FOUND' in r['rows'][0]['elements'][0]['status']:
+                if website=='craigslist':
+                    r=client.distance_matrix(result2[0]['address_components'][-1]['long_name'].replace(' ',''), str(results2['If you know the neighbourhood you want to live in please enter it below (Note we will only search apartments in this neighbourhood)'].iloc[number])+', Ontario',mode= 'transit')
+                elif website=='kijiji':
+                    r=client.distance_matrix(a.strip()[-6:], str(results2['If you know the neighbourhood you want to live in please enter it below (Note we will only search apartments in this neighbourhood)'].iloc[number])+', Ontario',mode= 'transit')
+                    
+            
             df.loc[b]['Distance To Hangout By TTC']=r['rows'][0]['elements'][0]['duration']['value']/60*1.1
             print r['rows'][0]['elements'][0]['duration']['value']/60*1.1
         except:
@@ -252,6 +273,12 @@ def get_location1 ():
 
 
             r=client.distance_matrix(a.strip(), 'Yonge and Dundas, Toronto',mode= 'transit')
+            if 'NOT_FOUND' in r['rows'][0]['elements'][0]['status']:
+                if website=='craigslist':
+                    r=client.distance_matrix(result2[0]['address_components'][-1]['long_name'].replace(' ',''), str(results2['If you know the neighbourhood you want to live in please enter it below (Note we will only search apartments in this neighbourhood)'].iloc[number])+', Ontario',mode= 'transit')
+                elif website=='kijiji':
+                    r=client.distance_matrix(a.strip()[-6:], str(results2['If you know the neighbourhood you want to live in please enter it below (Note we will only search apartments in this neighbourhood)'].iloc[number])+', Ontario',mode= 'transit')
+                    
             df.loc[b]['Distance To Downtown By TTC']=r['rows'][0]['elements'][0]['duration']['value']/60*1.3*1.1
             print 'downtown'
 
@@ -320,10 +347,11 @@ def get_location1 ():
     b=b+1
     i=i+1
 
-
+PROXY = "fr.proxymesh.com:31280" # IP:PORT or HOST:PORT
 chrome_options = Options()
 
 chrome_options.add_experimental_option( "prefs",{'profile.managed_default_content_settings.javascript': 2,"profile.managed_default_content_settings.images":2, "profile.default_content_settings.cookies": 2})
+chrome_options.add_argument('--proxy-server=%s' % PROXY)
 
 driver6 = webdriver.Chrome("C:\Users\Kye Andreopoulus\Desktop\chromedriver.exe")
 driver6.get('http://apartmentrank.com/wp-admin')
@@ -365,7 +393,7 @@ results2=results2[results2['Targeted']==1]
 results2=results2.append(results1)
 results2=results2.reset_index()
 
-for number in range(15,30):
+for number in range(11,17):
     h=[]
     index =range(0, 10000)
     df=pd.DataFrame(index=index, columns=('Website','ApartmentType','WorkAddress', 'HangoutAddress', 'ChosenAddress',  
@@ -568,8 +596,8 @@ for number in range(15,30):
                                     
                                     print 'check1'
 
-                                    df.loc[b]['WorkAddress']=str(results2['What is the closest intersection to work?'].iloc[number])+', Ontario'
-                                    df.loc[b]['HangoutAddress']=str(results2['Outside of work, what part of the city are you usually in? '].iloc[number])+', Ontario'
+                                    df.loc[b]['WorkAddress']=str(results2['What is the closest intersection to work?'].iloc[number])+', Toronto, Ontario, Canada'
+                                    df.loc[b]['HangoutAddress']=str(results2['Outside of work, what part of the city are you usually in? '].iloc[number])+', Ontario, Canada'
                                     try:
                                         df.loc[b]['ChosenAddress']=str(results2['If you know the neighbourhood you want to live in please enter it below (Note we will only search apartments in this neighbourhood)'].iloc[number])+', Ontario'
                                     except:
@@ -819,7 +847,7 @@ for number in range(15,30):
                             print 'check1'
 
                             df.loc[b]['ApartmentAddress']=a.strip()
-                            df.loc[b]['WorkAddress']=str(results2['What is the closest intersection to work?'].iloc[number])+', Ontario, Canada'
+                            df.loc[b]['WorkAddress']=str(results2['What is the closest intersection to work?'].iloc[number])+', Toronto, Ontario, Canada'
                             df.loc[b]['HangoutAddress']=str(results2['Outside of work, what part of the city are you usually in? '].iloc[number])+', Ontario, Canada'
                             try:
                                 df.loc[b]['ChosenAddress']=str(results2['If you know the neighbourhood you want to live in please enter it below (Note we will only search apartments in this neighbourhood)'].iloc[number])+', Ontario'
@@ -2087,9 +2115,12 @@ for number in range(15,30):
                 if results2.loc[number]['First Name']+results2.loc[number]['Last Name'] in str(cell.value):
                     found=cell.row
                     for x in range(3,6):
-                        if dffinal4[column]['ApartmentAddress'] in ws1.cell(row=found, column=x).value:
-                            print 'nope'
-                            tobreak=1
+                        try:
+                            if dffinal4[column]['ApartmentAddress'] in ws1.cell(row=found, column=x).value:
+                                print 'nope'
+                                tobreak=1
+                                break
+                        except:
                             break
                 if tobreak==1:
                     break
@@ -2234,7 +2265,7 @@ for number in range(15,30):
                         laptopimage1= x['src']
                         break
             import urllib
-            desktopimage1='C:\Users\Kye Andreopoulus\Pictures\\'+laptopimage1[-15:]
+            desktopimage1='C:\Users\Kye Andreopoulus\Pictures\\'+laptopimage1.replace('/','')[-15:]
             print laptopimage1
 
             urllib.urlretrieve(laptopimage1, desktopimage1)
@@ -2344,8 +2375,62 @@ for number in range(15,30):
     testlist=['Gym Within 10 Mins','Pharmacy Within 10 Mins','Restaurant Within 10 Mins', 'Grocery Within 10 Mins', 'Park Within 10 Mins','Coffee Shop Within 10 Mins']
     neighbourhoodlist=['What age are you, in spirit?','For whom?','Average Income of Neighbourhood']
     
+    if match1=='':
+        HEADER = '''
+        <html>
+            <head>
+
+            </head>
+            <body>
+        '''
+        FOOTER = '''
+            </body>
+        </html>
+        '''
+
+        data=HEADER + dffake.to_html(classes='df').encode('utf8') + FOOTER
+
+        import smtplib
+
+        from email.mime.multipart import MIMEMultipart
+        from email.mime.text import MIMEText
+
+        # me == my email address
+        # you == recipient's email address
+        me = "torontoapartmentrank@gmail.com"
+        you = "torontoapartmentrank@gmail.com "
+
+        # Create message container - the correct MIME type is multipart/alternative.
+        msg = MIMEMultipart('alternative')
+        msg['Subject'] = 'No Results for ' +results2['First Name'].iloc[number]
+        msg['From'] = me
+        msg['To'] = you
+
+
+        # Create the body of the message (a plain-text and an HTML version).
+        text = "Hi!\nHow are you?\nHere is the link you wanted:\nhttp://www.python.org"
+        html = data
+
+        # Record the MIME types of both parts - text/plain and text/html.
+        part1 = MIMEText(text, 'plain')
+        part2 = MIMEText(html, 'html')
+
+        # Attach parts into message container.
+        # According to RFC 2046, the last part of a multipart message, in this case
+        # the HTML message, is best and preferred.
+        msg.attach(part1)
+        msg.attach(part2)
+
+        server = smtplib.SMTP('smtp.gmail.com', 587)
+        server.starttls()
+        server.login("torontoapartmentrank@gmail.com", "Milou511!")
+
+        server.sendmail("torontoapartmentrank@gmail.com", "torontoapartmentrank@gmail.com", msg.as_string())
+        # sendmail function takes 3 arguments: sender's addrwalkess, recipient's address
+        # and message to send - here it is sent as one string.
+        server.quit()
     
-    if match2=='':
+    elif match2=='':
         dfnearby=dffinal4[[goodmatch[0]]].ix[testlist]
         dfneighbour=dffinal4[[goodmatch[0]]].ix[neighbourhoodlist]
     elif match3=='':
@@ -2354,7 +2439,8 @@ for number in range(15,30):
     else:
         dfnearby=dffinal4[[goodmatch[0],goodmatch[1],goodmatch[2]]].ix[testlist]
         dfneighbour=dffinal4[[goodmatch[0],goodmatch[1],goodmatch[2]]].ix[neighbourhoodlist]
-    
+        
+        
     columnlist=[]
     for x in range(0,len(dfnearby.columns)):
         y=x+1
@@ -2366,6 +2452,7 @@ for number in range(15,30):
     dfneighbour.columns=['Average Age of Postal Code', 'Demographics of Postal Code', 'Average Income of Postal Code']
     dfneighbour=dfneighbour.transpose()
      
+    
     if match2=='':
         stringlist=(  str(dffinal4[goodmatch[0]]['ApartmentAddress'])+'''</b><br>'''+str(match1))
                     
