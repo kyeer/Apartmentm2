@@ -389,11 +389,12 @@ results2['Targeted'][(results2['Datediff']%7==0)&(results2['Datediff']>=0)&(((re
 results2['Targeted'][(results2['Datediff']==1)&(((results2['When were you looking to move in?']-results2['Date Submitted'])/ np.timedelta64(1, 'D'))>60)] =1
 results2['Targeted'][(results2['Datediff']==2)&(((results2['When were you looking to move in?']-results2['Date Submitted'])/ np.timedelta64(1, 'D'))>60)] =1
 results2=results2[results2['Targeted']==1]
+results2=results2[results2['How Many Bedrooms Were You Looking For?']!='a:0:{}']
 
 results2=results2.append(results1)
 results2=results2.reset_index()
 
-for number in range(11,17):
+for number in range(0,3):
     h=[]
     index =range(0, 10000)
     df=pd.DataFrame(index=index, columns=('Website','ApartmentType','WorkAddress', 'HangoutAddress', 'ChosenAddress',  
@@ -2340,33 +2341,33 @@ for number in range(11,17):
         else:
             match1='''<b>'''+dffinal4[goodmatch[0]]['Apartment Price Range (including utilities, parking)']+'''</b><br>Distance from work: <b>'''+dffinal4[goodmatch[0]]['What is the closest intersection to work?']+'''</b><br>Distance from Hangout: <b>'''+dffinal4[goodmatch[0]]['Outside of work, what part of the city are you usually in? ']+'''</b><br>Apartment Type: <b>'''+dffinal4[goodmatch[0]]['How Many Bedrooms Were You Looking For?']+'''</b><br>Basement Or Above-Ground: <b>'''+dffinal4[goodmatch[0]]['Basement or Above Ground']+'''</b><br>'''
             try:
-                match1=match1+'''Allows Pets: <b>''' +dffinal4[goodmatch[0]]['Do you have any pets?']+ '''<b/><br>'''+str(hyperlink1)+'<br>'+'''<br>'''+'''<img src="cid:image10"style="width:500px;height:300px;">'''
+                match1=match1+'''Allows Pets: <b>''' +dffinal4[goodmatch[0]]['Do you have any pets?']+ '''</b><br>'''+str(hyperlink1)+'<br>'+'''<br>'''+'''<img src="cid:image10"style="width:500px;height:300px;">'''
             except:
                 match1=match1+ str(hyperlink1)+'<br><br>'+'''<img src="cid:image10"style="width:500px;height:300px;">'''
 
         if img2=='':
             match2='''<b>'''+dffinal4[goodmatch[1]]['Apartment Price Range (including utilities, parking)']+'''</b><br>Distance from work: <b>'''+dffinal4[goodmatch[1]]['What is the closest intersection to work?']+'''</b><br>Distance from Hangout: <b>'''+dffinal4[goodmatch[1]]['Outside of work, what part of the city are you usually in? ']+'''</b><br>Apartment Type: <b>'''+dffinal4[goodmatch[1]]['How Many Bedrooms Were You Looking For?']+'''</b><br>Basement Or Above-Ground: <b>'''+dffinal4[goodmatch[1]]['Basement or Above Ground']+'''</b><br>'''
             try:
-                match2=match2+'''Allows Pets: <b>''' +dffinal4[goodmatch[1]]['Do you have any pets?']+ str(hyperlink2)+'<br>'+'''<br>'''+nextimage
+                match2=match2+'''Allows Pets: <b>''' +dffinal4[goodmatch[1]]['Do you have any pets?']+'</b><br>'+ str(hyperlink2)+'<br>'+'''<br>'''+nextimage
             except:
                 match2=match2+ str(hyperlink2)+'<br>'+'''<br>'''+nextimage
         else:
             match2='''<b>'''+dffinal4[goodmatch[1]]['Apartment Price Range (including utilities, parking)']+'''</b><br>Distance from work: <b>'''+dffinal4[goodmatch[1]]['What is the closest intersection to work?']+'''</b><br>Distance from Hangout: <b>'''+dffinal4[goodmatch[1]]['Outside of work, what part of the city are you usually in? ']+'''</b><br>Apartment Type: <b>'''+dffinal4[goodmatch[1]]['How Many Bedrooms Were You Looking For?']+'''</b><br>Basement Or Above-Ground: <b>'''+dffinal4[goodmatch[1]]['Basement or Above Ground']+'''</b><br>'''
             try:
-                match2=match2+'''Allows Pets: <b>''' +dffinal4[goodmatch[1]]['Do you have any pets?']+ '''<b/><br>'''+ str(hyperlink2)+'<br>'+'''<br>'''+'''<img src="cid:image11"style="width:500px;height:300px;">'''
+                match2=match2+'''Allows Pets: <b>''' +dffinal4[goodmatch[1]]['Do you have any pets?']+ '''</b><br>'''+ str(hyperlink2)+'<br>'+'''<br>'''+'''<img src="cid:image11"style="width:500px;height:300px;">'''
             except:
                 match2=match2+ str(hyperlink2)+'<br>'+'''<br>'''+'''<img src="cid:image11"style="width:500px;height:300px;">'''
 
         if img3=='':
             match3='''<b>'''+dffinal4[goodmatch[2]]['Apartment Price Range (including utilities, parking)']+'''</b><br>Distance from work: <b>'''+dffinal4[goodmatch[2]]['What is the closest intersection to work?']+'''</b><br>Distance from Hangout: <b>'''+dffinal4[goodmatch[2]]['Outside of work, what part of the city are you usually in? ']+'''</b><br>Apartment Type: <b>'''+dffinal4[goodmatch[2]]['How Many Bedrooms Were You Looking For?']+'''</b><br>Basement Or Above-Ground: <b>'''+dffinal4[goodmatch[2]]['Basement or Above Ground']+'''</b><br>'''
             try:
-                match3=match3+'''Allows Pets: <b>''' +dffinal4[goodmatch[2]]['Do you have any pets?']+'''<b/><br>'''+ str(hyperlink3)+'<br>'+'''<br>'''+nextnextimage
+                match3=match3+'''Allows Pets: <b>''' +dffinal4[goodmatch[2]]['Do you have any pets?']+'''</b><br>'''+ str(hyperlink3)+'<br>'+'''<br>'''+nextnextimage
             except:
                 match3=match3+str(hyperlink3)+'<br>'+'''<br>'''+nextnextimage
         else:
             match3='''<b>'''+dffinal4[goodmatch[2]]['Apartment Price Range (including utilities, parking)']+'''</b><br>Distance from work: <b>'''+dffinal4[goodmatch[2]]['What is the closest intersection to work?']+'''</b><br>Distance from Hangout: <b>'''+dffinal4[goodmatch[2]]['Outside of work, what part of the city are you usually in? ']+'''</b><br>Apartment Type: <b>'''+dffinal4[goodmatch[2]]['How Many Bedrooms Were You Looking For?']+'''</b><br>Basement Or Above-Ground: <b>'''+dffinal4[goodmatch[2]]['Basement or Above Ground']+'''</b><br>'''
             try:
-                match3=match3+'''Allows Pets: <b>''' +dffinal4[goodmatch[2]]['Do you have any pets?']+'''<b/><br>'''+ str(hyperlink3)+'<br>'+'''<br>'''+'''<img src="cid:image12"style="width:500px;height:300px;">'''
+                match3=match3+'''Allows Pets: <b>''' +dffinal4[goodmatch[2]]['Do you have any pets?']+'''</b><br>'''+ str(hyperlink3)+'<br>'+'''<br>'''+'''<img src="cid:image12"style="width:500px;height:300px;">'''
             except:
                 match3=match3+str(hyperlink3)+'<br>'+ '''<br>'''+'''<img src="cid:image12"style="width:500px;height:300px;">'''
     except:
@@ -2495,17 +2496,17 @@ for number in range(11,17):
     # me == my email address
     # you == recipient's email address
     me = "torontoapartmentrank@gmail.com"
-    you = "torontoapartmentrank@gmail.com"
+    you = results2['Email to send you your matches'].iloc[number]
 
     # Create message container - the correct MIME type is multipart/alternative.
     msg = MIMEMultipart('alternative')
-    msg['Subject'] = 'Results for ' +results2['First Name'].iloc[number]+results2['Last Name'].iloc[number]
+    msg['Subject'] = "Your Apartment Match Results For Today"
     msg['From'] = me
     msg['To'] = you
 
 
     # Create the body of the message (a plain-text and an HTML version).
-    text = "Hi!\nHow are you?\nHere is the link you wanted:\nhttp://www.python.org"
+    text = "Your perfect apartment matches"
     html = data
 
     # Record the MIME types of both parts - text/plain and text/html.
@@ -2589,3 +2590,44 @@ for number in range(11,17):
     driver17.quit()
     driver18.quit()
     driver19.quit()
+    #CODE TO SEND ALL E-MAILS FROM DRAFT
+
+    for x in range (0,100):
+        try:
+            import imaplib
+            import time
+            import smtplib 
+            from datetime import datetime, timedelta
+            conn = imaplib.IMAP4_SSL('imap.gmail.com')
+            conn.login('torontoapartmentrank@gmail.com', 'Milou511!')
+            conn.select('[Gmail]/Drafts')
+            today = datetime.today()
+            cutoff = today - timedelta(days=1)
+            dt = cutoff.strftime('%d-%b-%Y')
+            print dt
+            result, data =conn.search(None, '(SINCE %s)' %(dt,))
+            ids = data[0] # data is a list.
+            id_list = ids.split() # ids is a space separated string
+            latest_email_id = id_list[-x] # get the latest
+
+            result, data = conn.fetch(latest_email_id, "(RFC822)") # fetch the email body (RFC822)             for the given ID
+
+            raw_email = data[0][1]
+
+            towhom= raw_email.find('To')
+            stop=raw_email[towhom+4:].find('com')
+            if stop>100:
+                stop=raw_email[towhom+4:].find('ca')
+            if stop>100:
+                stop=raw_email[towhom+4:].find('net')
+
+            server = smtplib.SMTP('smtp.bananatag.com', 587)
+            server.starttls()
+            server.login("torontoapartmentrank@gmail.com", "Milou511!") 
+            server.sendmail("torontoapartmentrank@gmail.com",raw_email[towhom+4:towhom+stop+4+3] , raw_email)
+            server.quit()
+            conn.store(3, '+FLAGS', '\\Deleted')
+            conn.expunge()
+        except:
+            print 'Done email'
+            break
