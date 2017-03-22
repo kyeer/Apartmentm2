@@ -389,12 +389,11 @@ results2['Targeted'][(results2['Datediff']%7==0)&(results2['Datediff']>=0)&(((re
 results2['Targeted'][(results2['Datediff']==1)&(((results2['When were you looking to move in?']-results2['Date Submitted'])/ np.timedelta64(1, 'D'))>60)] =1
 results2['Targeted'][(results2['Datediff']==2)&(((results2['When were you looking to move in?']-results2['Date Submitted'])/ np.timedelta64(1, 'D'))>60)] =1
 results2=results2[results2['Targeted']==1]
-results2=results2[results2['How Many Bedrooms Were You Looking For?']!='a:0:{}']
 
 results2=results2.append(results1)
 results2=results2.reset_index()
 
-for number in range(0,3):
+for number in range(11,17):
     h=[]
     index =range(0, 10000)
     df=pd.DataFrame(index=index, columns=('Website','ApartmentType','WorkAddress', 'HangoutAddress', 'ChosenAddress',  
@@ -972,6 +971,19 @@ for number in range(0,3):
         # sendmail function takes 3 arguments: sender's addrwalkess, recipient's address
         # and message to send - here it is sent as one string.
         server.quit()
+        try:
+            driver.quit()
+            driver2.quit()
+            driver4.quit()
+            driver13.quit()
+            driver14.quit()
+            driver15.quit()
+            driver16.quit()
+            driver17.quit()
+            driver18.quit()
+            driver19.quit()
+        except:
+            pass
         continue
     
     try:
@@ -2163,8 +2175,19 @@ for number in range(0,3):
                     try:
                         urllib.urlretrieve(laptopimage1, desktopimage1)
                         fp = open(desktopimage1, 'rb')
-                        msgImage = MIMEImage(fp.read())
-                        fp.close()
+                        if imagecount==0:
+                            msgImage = MIMEImage(fp.read())
+                            fp.close()
+                            img1='1st img'
+                        elif imagecount==1:
+                            msgImage2 = MIMEImage(fp.read())
+                            fp.close()
+                            img2= '2nd img'
+                        elif imagecount==2:
+                            msgImage3 = MIMEImage(fp.read())
+                            fp.close()
+                            img3= '3rd img'
+                        print 'this one'
                         imagecount=imagecount+1
                         if locationlist!='':
                             locationlist=locationlist+'&markers=label:'+str(secondnumber)+'%7C'+dffinal4[column]['ApartmentAddress'].replace('&',' ').replace('google map, Canada',' ')
@@ -2430,6 +2453,20 @@ for number in range(0,3):
         # sendmail function takes 3 arguments: sender's addrwalkess, recipient's address
         # and message to send - here it is sent as one string.
         server.quit()
+        try:
+            driver.quit()
+            driver2.quit()
+            driver4.quit()
+            driver13.quit()
+            driver14.quit()
+            driver15.quit()
+            driver16.quit()
+            driver17.quit()
+            driver18.quit()
+            driver19.quit()
+        except:
+            pass
+        continue
     
     elif match2=='':
         dfnearby=dffinal4[[goodmatch[0]]].ix[testlist]
